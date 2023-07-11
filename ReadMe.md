@@ -10,6 +10,8 @@ cp -r label-studio-ml-backend/label_studio_ml label_studio_ml # 可以使用相�
 ## layoutlm3 
 pip install -r lv3req.txt
 pip install debugpy
+pip install -U "pillow<10.0.0"
+pip install -U -e . # 项目根目录
 ### torch and cuda 
 #pip install torch==1.10.0+cu111 torchvision==0.11.1+cu111 -f https://download.pytorch.org/whl/torch_stable.html # 以前的链接失效了
 pip install torch==1.12.0+cu113 torchvision==0.11.1+cu113 -f https://download.pytorch.org/whl/torch_stable.html # 以前的链接失效了
@@ -22,3 +24,9 @@ pip install detectron2 -f https://dl.fbaipublicfiles.com/detectron2/wheels/cu111
 ## 年报摘要
 
 pip install -r apps/nbzy/requestments.txt
+
+mkdirs -p  apps/nbzy/storage/model_dir
+mkdirs -p  apps/nbzy/storage/model_weights
+
+
+
