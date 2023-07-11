@@ -2,6 +2,7 @@ import os
 import json
 import random
 import label_studio_sdk
+import requests
 from label_studio_ml.model import LabelStudioMLBase
 from label_studio_ml.utils import get_image_size, \
     get_single_tag_keys, DATA_UNDEFINED_NAME
@@ -9,11 +10,12 @@ from object_detection.ditod import DefaultPredictor
 #from detectron2.evaluation.coco_evaluation import instances_to_coco_json
 from PIL import Image
 import numpy as np
-#from detectron2.structures import Boxes, BoxMode, pairwise_iou
+from detectron2.structures import Boxes, BoxMode, pairwise_iou
 from detectron2.structures import BoxMode
 
 LABEL_STUDIO_HOST = os.getenv('LABEL_STUDIO_HOST', 'http://127.0.0.1:8080')
 LABEL_STUDIO_API_KEY = os.getenv('LABEL_STUDIO_API_KEY', 'bf45ee964022f05fa2c4d025a719a9aedf4a8d2f')
+colab_url = 'https://0adc-34-143-240-199.ngrok-free.app/'
 
 class NBZYlayoutnetModel(LabelStudioMLBase):
     """This simple Label Studio ML backend demonstrates training & inference steps with a simple scenario:
@@ -150,15 +152,20 @@ class NBZYlayoutnetModel(LabelStudioMLBase):
         print(image_url)
         image_path = self.get_local_path(image_url)
         print(image_path)
-        original_image=Image.open(image_path)
-        img_width,img_height=original_image.width,original_image.height
-        image = np.asarray(original_image)
-        res=self.model(image)
-        output_prediction=self.parser_instance(res["instances"],img_width,img_height)
-        print(f'Return output prediction: {json.dumps(output_prediction, indent=2)}')
+        # original_image=Image.open(image_path)
+        # img_width,img_height=original_image.width,original_image.height
+        # image = np.asarray(original_image)
+        # res=self.model(image)
+        # output_prediction=self.parser_instance(res["instances"],img_width,img_height)
+        # print(f'Return output prediction: {json.dumps(output_prediction, indent=2)}')
         # 需要做标签映射
-        # 
-        return output_prediction
+        image_path = self.get_local_path(image_url)
+        
+        files = {'file': open(image_path, 'rb')}
+        model_results = requests.post(
+            colab_url,files=files
+        )
+        return model_results
 
     def download_tasks(self, project):
         """

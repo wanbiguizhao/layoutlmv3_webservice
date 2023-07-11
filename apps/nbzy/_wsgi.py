@@ -123,7 +123,7 @@ if __name__ == "__main__":
     if args.check:
         print('Check "' + NBZYlayoutnetModel.__name__ + '" instance creation..')
         model = NBZYlayoutnetModel(cfg)
-    model=DefaultPredictor(cfg)
+    model=None #DefaultPredictor(cfg)
     app = init_app(
         model_class=NBZYlayoutnetModel,
         model=model,
