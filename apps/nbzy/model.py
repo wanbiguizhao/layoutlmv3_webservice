@@ -15,8 +15,8 @@ from detectron2.structures import BoxMode
 
 LABEL_STUDIO_HOST = os.getenv('LABEL_STUDIO_HOST', 'http://127.0.0.1:8080')
 LABEL_STUDIO_API_KEY = os.getenv('LABEL_STUDIO_API_KEY', 'bf45ee964022f05fa2c4d025a719a9aedf4a8d2f')
-colab_url = 'https://0adc-34-143-240-199.ngrok-free.app/'
-
+#colab_url = 'https://qrt37agg52d-496ff2e9c6d22116-5000-colab.googleusercontent.com'
+colab_url="https://fabb-34-83-41-2.ngrok-free.app"
 class NBZYlayoutnetModel(LabelStudioMLBase):
     """This simple Label Studio ML backend demonstrates training & inference steps with a simple scenario:
     on training: it gets the latest created annotation and stores it as "prediction model" artifact
@@ -133,15 +133,15 @@ class NBZYlayoutnetModel(LabelStudioMLBase):
         # self.train_output is a dict that stores the latest result returned by fit() method
         assert len(tasks) == 1
         task = tasks[0]
-        if True:
-            #do some hack
-            base_path=os.path.dirname(os.path.realpath(__file__))
-            with open(f"{base_path}/tmp/prediction_tasks.json","r") as cache_fs:
-                cache_data=json.load(cache_fs)
-                task["id"]
-                for data in cache_data:
-                    if data["id"]==task["id"]:
-                        return data["predictions"]
+        # if True:
+        #     #do some hack
+        #     base_path=os.path.dirname(os.path.realpath(__file__))
+        #     with open(f"{base_path}/tmp/prediction_tasks.json","r") as cache_fs:
+        #         cache_data=json.load(cache_fs)
+        #         task["id"]
+        #         for data in cache_data:
+        #             if data["id"]==task["id"]:
+        #                 return data["predictions"]
 
         from_name, schema = list(self.parsed_label_config.items())[0]
         
@@ -158,14 +158,16 @@ class NBZYlayoutnetModel(LabelStudioMLBase):
         # res=self.model(image)
         # output_prediction=self.parser_instance(res["instances"],img_width,img_height)
         # print(f'Return output prediction: {json.dumps(output_prediction, indent=2)}')
-        # 需要做标签映射
-        image_path = self.get_local_path(image_url)
-        
+        # 需要做标签映射        
         files = {'file': open(image_path, 'rb')}
+        # print(files)
+        # get_res=requests.get(url=colab_url)
+        # print(get_res.text)
         model_results = requests.post(
-            colab_url,files=files
+            url=colab_url,files=files
         )
-        return model_results
+        # print(model_results.text)
+        return model_results.json()
 
     def download_tasks(self, project):
         """
