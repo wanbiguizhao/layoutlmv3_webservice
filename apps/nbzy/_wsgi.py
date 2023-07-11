@@ -143,7 +143,7 @@ else:
     args = parser.parse_args()
     cfg = setup_obejct_detection_config(args)
     app = init_app(
-        model_class=GovlayoutnetModel,
+        model_class=NBZYlayoutnetModel,
         cfg=cfg,
         model_dir=os.environ.get('MODEL_DIR', os.path.dirname(__file__)),
         redis_queue=os.environ.get('RQ_QUEUE_NAME', 'default'),

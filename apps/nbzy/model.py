@@ -6,10 +6,12 @@ from label_studio_ml.model import LabelStudioMLBase
 from label_studio_ml.utils import get_image_size, \
     get_single_tag_keys, DATA_UNDEFINED_NAME
 from object_detection.ditod import DefaultPredictor
-from detectron2.evaluation.coco_evaluation import instances_to_coco_json
+#from detectron2.evaluation.coco_evaluation import instances_to_coco_json
 from PIL import Image
 import numpy as np
-from detectron2.structures import Boxes, BoxMode, pairwise_iou
+#from detectron2.structures import Boxes, BoxMode, pairwise_iou
+from detectron2.structures import BoxMode
+
 LABEL_STUDIO_HOST = os.getenv('LABEL_STUDIO_HOST', 'http://127.0.0.1:8080')
 LABEL_STUDIO_API_KEY = os.getenv('LABEL_STUDIO_API_KEY', 'bf45ee964022f05fa2c4d025a719a9aedf4a8d2f')
 
