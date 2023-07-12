@@ -16,7 +16,7 @@ from detectron2.structures import BoxMode
 LABEL_STUDIO_HOST = os.getenv('LABEL_STUDIO_HOST', 'http://127.0.0.1:8080')
 LABEL_STUDIO_API_KEY = os.getenv('LABEL_STUDIO_API_KEY', 'bf45ee964022f05fa2c4d025a719a9aedf4a8d2f')
 #colab_url = 'https://qrt37agg52d-496ff2e9c6d22116-5000-colab.googleusercontent.com'
-colab_url="https://fabb-34-83-41-2.ngrok-free.app"
+colab_url="http://region-3.seetacloud.com:37664/"
 class NBZYlayoutnetModel(LabelStudioMLBase):
     """This simple Label Studio ML backend demonstrates training & inference steps with a simple scenario:
     on training: it gets the latest created annotation and stores it as "prediction model" artifact
@@ -160,13 +160,13 @@ class NBZYlayoutnetModel(LabelStudioMLBase):
         # print(f'Return output prediction: {json.dumps(output_prediction, indent=2)}')
         # 需要做标签映射        
         files = {'file': open(image_path, 'rb')}
-        # print(files)
-        # get_res=requests.get(url=colab_url)
-        # print(get_res.text)
+        print(files)
+        get_res=requests.get(url=colab_url)
+        print(get_res.text)
         model_results = requests.post(
             url=colab_url,files=files
         )
-        # print(model_results.text)
+        print(model_results.text)
         return model_results.json()
 
     def download_tasks(self, project):
