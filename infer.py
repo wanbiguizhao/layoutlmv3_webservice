@@ -129,12 +129,16 @@ def main(cfg,input_dir):
             image_path=f"{basic_image_dir}/{images_dir}/{image_png}"
             if "png" not in image_path:
                 continue 
-            img = read_image(image_path, format="BGR")
-            img_width,img_height=img.shape[1],img.shape[0]
-            res=model(img)
-            output_prediction=parser_instance(res["instances"],img_width,img_height)
-            with open(f"{infer_image_dir}/{images_dir}/{image_png[:-4]}.json","w") as prediction_tasks_file:
-                json.dump(output_prediction,prediction_tasks_file,indent=2,ensure_ascii=False)
+            try:
+              img = read_image(image_path, format="BGR")
+              img_width,img_height=img.shape[1],img.shape[0]
+              res=model(img)
+              output_prediction=parser_instance(res["instances"],img_width,img_height)
+              os.makedirs(f"{infer_image_dir}/{images_dir}/",exist_ok=True)
+              with open(f"{infer_image_dir}/{images_dir}/{image_png[:-4]}.json","w") as prediction_tasks_file:
+                  json.dump(output_prediction,prediction_tasks_file,indent=2,ensure_ascii=False)
+            except:
+              print(image_path)
     model = DefaultPredictor(cfg)
     basic_image_dir=input_dir
     infer_image_dir=""
